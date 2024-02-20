@@ -4,7 +4,7 @@
 
 An E-Commerce Application build with Node.JS, Express and MongoDB
 
-## Day1 📅 20/01/2024
+## Day 1 📅 20/01/2024
 
 - index page created
 - layout folder created
