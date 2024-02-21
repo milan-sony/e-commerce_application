@@ -6,8 +6,9 @@ var logger = require('morgan');
 
 const hbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
+const db = require('./config/connection')
 
-
+db.connect()
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
@@ -19,7 +20,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // setting/defining the path of layout and partials folder
-
 app.engine('hbs', hbs.engine({
   extname: 'hbs',
   defaultLayout: 'layout',
