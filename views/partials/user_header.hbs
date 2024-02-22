@@ -19,11 +19,18 @@
         </ul>
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                {{#if user}}
+                {{user.name}}
+                {{else}}
                 Account
+                {{/if}}
             </button>
             <div class="dropdown-menu">
+                {{#if user}}
+                <a class="dropdown-item" href="/logout">Logout</a>
+                {{else}}
                 <a class="dropdown-item" href="/login">Login</a>
-                {{!-- <a class="dropdown-item" href="#">Another action</a> --}}
+                {{/if}}
             </div>
         </div>
     </div>

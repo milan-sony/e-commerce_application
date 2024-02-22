@@ -7,6 +7,7 @@ var logger = require('morgan');
 const hbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
 const db = require('./config/connection')
+const session = require('express-session')
 
 db.connect()
 
@@ -34,17 +35,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(fileUpload());
+app.use(session({ secret: "Key", cookie: { maxAge: 600000 } })) // 6000000 millisec: 10 min
 
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
