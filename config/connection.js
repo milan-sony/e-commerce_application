@@ -8,12 +8,11 @@ module.exports = {
         .then(() => {
             console.log("Connected to MongoDB\n");
         }).catch((error) => {
-            console.log(error);
+            console.log("MongoDB not connected" + error);
         });
     },
 
     collection: (name) => {
         return mongoose.connection.db.collection(name);
     }
-
 };
