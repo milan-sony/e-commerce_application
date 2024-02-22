@@ -8,7 +8,7 @@ module.exports = {
         .then(() => {
             console.log("Connected to MongoDB\n");
         }).catch((error) => {
-            console.log("MongoDB not connected" + error);
+            console.log("MongoDB not connected\n" + error);
         });
     },
 
