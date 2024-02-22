@@ -6,8 +6,11 @@ const userHelpers = require('../helpers/user_helpers')
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
+  let user = req.session.user
+  console.log(user)
+
   productHelper.getAllProducts().then((products) => {
-    res.render('../views/user/view_products.hbs', { title: 'Shoping Cart', products, admin: false });
+    res.render('../views/user/view_products.hbs', { title: 'Shoping Cart', admin: false, products, user });
   })
 
 });
@@ -17,14 +20,15 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  userHelpers.doLogin(req.body).then((response)=>{
-    if(response.status){
+  userHelpers.doLogin(req.body).then((response) => {
+    if (response.status) {
+      req.session.loggedIn = true
+      req.session.user = response.user
       res.redirect('/')
-    }else{
+    } else {
       res.redirect('/login')
     }
   })
-  // res.send("Success")
 })
 
 router.get('/signup', (req, res) => {
@@ -38,6 +42,11 @@ router.post('/signup', (req, res) => {
     res.send("Data saved")
   })
 
+})
+
+router.get('/logout', (req, res) => {
+  req.session.destroy()
+  res.redirect('/')
 })
 
 module.exports = router;
