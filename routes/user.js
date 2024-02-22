@@ -17,8 +17,14 @@ router.get('/login', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  userHelpers.doLogin(req.body)
-  res.send("Success")
+  userHelpers.doLogin(req.body).then((response)=>{
+    if(response.status){
+      res.redirect('/')
+    }else{
+      res.redirect('/login')
+    }
+  })
+  // res.send("Success")
 })
 
 router.get('/signup', (req, res) => {
