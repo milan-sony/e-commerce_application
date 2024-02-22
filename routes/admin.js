@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
 
   productHelper.getAllProducts().then((products) => {
 
-    console.log(products)
+    // console.log(products)
 
     res.render('../views/admin/view_products', { title: 'Admin Panel', admin: true, products })
 
