@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  
+router.get('/', function (req, res, next) {
+
   let products = [
 
     {
@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
 
   ]
 
-  res.render('index', { title:'Shoping Cart', products, admin: false });
+  res.render('index', { title: 'Shoping Cart', products, admin: false });
 });
 
 module.exports = router;
