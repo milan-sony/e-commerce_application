@@ -124,3 +124,15 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - product image saved to `product_image` folder in `public` folder
 
 ⚠ Error occurred: image is not displayed from `product_image` folder
+
+## Day 3
+
+📅 22/02/2024
+
+- Error fixed image is displayed from the `product_image` folder
+- product data added to user side
+- user login and signup page created
+- user signup data saved to db
+- user login and page redirected
+- user session created
+- user logout
