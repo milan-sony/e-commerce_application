@@ -28,7 +28,7 @@ router.post('/add_product', function (req, res) {
     image.mv('./public/product_images/' + id + '.jpg', (err, done) => {
 
       if (!err) {
-        res.render('../views/admin/view_products.hbs', { title: 'Admin Panel', admin: true })
+        res.redirect('/admin')
       } else {
         console.log("Error" + err)
       }
