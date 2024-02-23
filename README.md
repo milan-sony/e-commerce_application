@@ -136,3 +136,12 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - user login and page redirected
 - user session created
 - user logout
+
+## Day 4
+
+📅 23/02/2024
+
+- user valid or invalid checked
+- cart page created
+- middleware created for checking the user login
+- product deleted from admin side
