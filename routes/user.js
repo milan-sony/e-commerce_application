@@ -3,6 +3,17 @@ var router = express.Router();
 const productHelper = require('../helpers/product_helpers')
 const userHelpers = require('../helpers/user_helpers')
 
+// creating a middleware for varify login
+const varifyLogin = (req ,res, next)=>{
+  
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+
+}
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
@@ -57,6 +68,10 @@ router.post('/signup', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy()
   res.redirect('/')
+})
+
+router.get('/cart', varifyLogin, (req, res)=>{
+  res.render('../views/user/cart.hbs')
 })
 
 module.exports = router;
