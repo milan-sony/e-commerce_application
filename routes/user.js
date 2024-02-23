@@ -16,18 +16,29 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/login', (req, res) => {
-  res.render('../views/user/login.hbs')
+
+  if(req.session.loggedIn){
+    res.redirect('/')
+  }else{
+    res.render('../views/user/login.hbs', {loginErr : req.session.loginErr})
+    req.session.loginErr = false
+  }
+
 })
 
 router.post('/login', (req, res) => {
+
   userHelpers.doLogin(req.body).then((response) => {
+
     if (response.status) {
       req.session.loggedIn = true
       req.session.user = response.user
       res.redirect('/')
     } else {
+      req.session.loginErr = true
       res.redirect('/login')
     }
+
   })
 })
 
@@ -38,8 +49,7 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res) => {
 
   userHelpers.doSignup(req.body).then((response) => {
-    console.log(response)
-    res.send("Data saved")
+    res.redirect('/login')
   })
 
 })

@@ -16,7 +16,6 @@ module.exports = {
 
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
-            let loginStatus = false
             let response = {}
             let user = await db.collection(collections.USER_COLLECTIONS).findOne({ email: userData.email })
             if (user) {
