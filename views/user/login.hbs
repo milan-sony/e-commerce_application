@@ -1,6 +1,11 @@
 <div class="container">
     <div class="login-form mt-5">
         <h3><b>LOGIN</b></h3>
+        {{#if loginErr}}
+        <div class="alert alert-success" role="alert">
+            {{loginErr}}
+        </div>
+        {{/if}}
         <form action="/login" method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
