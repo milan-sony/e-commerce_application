@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const productHelper = require('../helpers/product_helpers')
 const userHelpers = require('../helpers/user_helpers')
+const { ObjectId } = require('mongodb')
 
 // creating a middleware for varify login
 const varifyLogin = (req, res, next) => {
@@ -76,6 +77,11 @@ router.get('/logout', (req, res) => {
 
 router.get('/cart', varifyLogin, (req, res) => {
   res.render('../views/user/cart.hbs')
+})
+
+router.get('/add_to_cart/:id', (req, res) =>{
+  userHelpers.addToCart(req.params.id, req.session._id)
+
 })
 
 module.exports = router;
