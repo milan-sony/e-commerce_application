@@ -16,9 +16,7 @@ const varifyLogin = (req ,res, next)=>{
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-
   let user = req.session.user
-  console.log(user)
 
   productHelper.getAllProducts().then((products) => {
     res.render('../views/user/view_products.hbs', { title: 'Shoping Cart', admin: false, products, user });
@@ -54,7 +52,9 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/signup', (req, res) => {
+
   res.render('../views/user/signup.hbs')
+
 })
 
 router.post('/signup', (req, res) => {
@@ -66,8 +66,10 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
+
   req.session.destroy()
   res.redirect('/')
+  
 })
 
 router.get('/cart', varifyLogin, (req, res)=>{
