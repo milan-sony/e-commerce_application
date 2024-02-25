@@ -4,11 +4,11 @@ const productHelper = require('../helpers/product_helpers')
 const userHelpers = require('../helpers/user_helpers')
 
 // creating a middleware for varify login
-const varifyLogin = (req ,res, next)=>{
-  
-  if(req.session.loggedIn){
+const varifyLogin = (req, res, next) => {
+
+  if (req.session.loggedIn) {
     next()
-  }else{
+  } else {
     res.redirect('/login')
   }
 
@@ -26,10 +26,10 @@ router.get('/', function (req, res, next) {
 
 router.get('/login', (req, res) => {
 
-  if(req.session.loggedIn){
+  if (req.session.loggedIn) {
     res.redirect('/')
-  }else{
-    res.render('../views/user/login.hbs', {loginErr : req.session.loginErr})
+  } else {
+    res.render('../views/user/login.hbs', { loginErr: req.session.loginErr })
     req.session.loginErr = false
   }
 
@@ -69,10 +69,10 @@ router.get('/logout', (req, res) => {
 
   req.session.destroy()
   res.redirect('/')
-  
+
 })
 
-router.get('/cart', varifyLogin, (req, res)=>{
+router.get('/cart', varifyLogin, (req, res) => {
   res.render('../views/user/cart.hbs')
 })
 

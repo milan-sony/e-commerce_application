@@ -44,21 +44,28 @@ router.get('/delete_product/', (req, res) => {
 
 })
 
-router.get('/edit_product', async (req, res) =>{
-  
-  let productId = req.query.id
-  await productHelper.getProductDetails(productId).then((product) =>{
+router.get('/edit_product', async (req, res) => {
 
-    res.render('../views/admin/edit_product.hbs', {product})
+  let productId = req.query.id
+  await productHelper.getProductDetails(productId).then((product) => {
+
+    res.render('../views/admin/edit_product.hbs', { product })
   })
-  
+
 
 })
 
-router.post('/edit_product', (req, res) =>{
+router.post('/edit_product', (req, res) => {
 
-  productHelper.updateProduct(req.body).then((result)=>{
+  let id = req.body.id
+
+  productHelper.updateProduct(req.body).then((result) => {
     res.redirect('/admin')
+
+    if (req.files.image) {
+      let image = req.files.image
+      image.mv('./public/product_images/' + id + '.jpg')
+    }
   })
 })
 
