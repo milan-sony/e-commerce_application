@@ -21,7 +21,6 @@ module.exports = {
             if (user) {
                 bcrypt.compare(userData.password, user.password).then((status) => {
                     if (status) {
-                        console.log("Login Success")
                         response.user = user
                         response.status = true
                         resolve(response)
