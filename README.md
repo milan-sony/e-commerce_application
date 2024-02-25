@@ -145,3 +145,12 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - cart page created
 - middleware created for checking the user login
 - product deleted from admin side
+
+## Day 5
+
+📅 25/02/2024
+
+- product details displayed on another page for editing
+- product details updated and image changed
+- user signup session created
+- working on add to cart
