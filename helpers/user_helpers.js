@@ -47,8 +47,10 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let userCart = await db.collection(collections.CART_COLLECTIONS).findOne({ user: new ObjectId(userID) })
             if (userCart) {
+                //  checks whether the product being added already exists in the cart by finding its index in the products array of the cart.
                 let proExist = userCart.products.findIndex(product => product.item == productID)
                 console.log(proExist)
+                // If the product exists in the cart, it updates the quantity of that product in the cart by incrementing its quantity by 1 using MongoDB's $inc operator.
                 if (proExist != -1) {
                     db.collection(collections.CART_COLLECTIONS).updateOne({ user: new ObjectId(userID), 'products.item': new ObjectId(productID) },
                         {
@@ -74,7 +76,7 @@ module.exports = {
                     resolve()
                 }).catch((error) => {
                     reject(error)
-                });
+                })
             }
         })
     }
