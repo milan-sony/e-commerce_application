@@ -39,32 +39,43 @@ module.exports = {
         })
     },
 
-    addToCart: (productId, userId)=>{
-        console.log(userId)
-        
+    addToCart: (productID, userID) => {
+        let productobject = {
+            item: new ObjectId(productID),
+            quantity: 1
+        }
         return new Promise(async (resolve, reject) => {
-
-            let usercart = await db.collection(collections.CART_COLLECTIONS).findOne({user: new ObjectId(userId)})
-
-            if(usercart){
-                db.collection(collections.CART_COLLECTIONS).updateOne(({user: new ObjectId(userId)},
-                {
-                    $push:{
-                        products: new ObjectId(productId)
-                    }
-                })).then((response)=>{
-                    resolve()
-                })
-            }else{
-                let cartObj = {
-                    user: new ObjectId(userId),
-                    products: [new ObjectId(productId)]
+            let userCart = await db.collection(collections.CART_COLLECTIONS).findOne({ user: new ObjectId(userID) })
+            if (userCart) {
+                let proExist = userCart.products.findIndex(product => product.item == productID)
+                console.log(proExist)
+                if (proExist != -1) {
+                    db.collection(collections.CART_COLLECTIONS).updateOne({ user: new ObjectId(userID), 'products.item': new ObjectId(productID) },
+                        {
+                            $inc: { 'products.$.quantity': 1 }
+                        }).then(() => {
+                            resolve()
+                        })
+                } else {
+                    db.collection(collections.CART_COLLECTIONS).updateOne({ user: new ObjectId(userID) },
+                        {
+                            $push: { products: productobject }
+                        }
+                    ).then((response) => {
+                        resolve()
+                    })
                 }
-                db.collection(collections.CART_COLLECTIONS).insertOne(cartObj).then((response) =>{
+            } else {
+                let cartObj = {
+                    user: new ObjectId(userID),
+                    products: [productobject]
+                }
+                db.collection(collections.CART_COLLECTIONS).insertOne(cartObj).then((response) => {
                     resolve()
-                })
+                }).catch((error) => {
+                    reject(error)
+                });
             }
         })
     }
-
 }
