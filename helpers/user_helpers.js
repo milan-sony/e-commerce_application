@@ -40,16 +40,29 @@ module.exports = {
     },
 
     addToCart: (productId, userId)=>{
-        return new Promise((resolve, reject) => {
+        console.log(userId)
+        
+        return new Promise(async (resolve, reject) => {
 
-            let usercart = db.collection(collections.CART_COLLECTION).findOne({user: ObjectId(userId)})
+            let usercart = await db.collection(collections.CART_COLLECTIONS).findOne({user: new ObjectId(userId)})
+
             if(usercart){
-
+                db.collection(collections.CART_COLLECTIONS).updateOne(({user: new ObjectId(userId)},
+                {
+                    $push:{
+                        products: new ObjectId(productId)
+                    }
+                })).then((response)=>{
+                    resolve()
+                })
             }else{
                 let cartObj = {
-                    user: ObjectId(userId),
-                    products: [ObjectId(productId)]
+                    user: new ObjectId(userId),
+                    products: [new ObjectId(productId)]
                 }
+                db.collection(collections.CART_COLLECTIONS).insertOne(cartObj).then((response) =>{
+                    resolve()
+                })
             }
         })
     }

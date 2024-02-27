@@ -12,17 +12,16 @@ const varifyLogin = (req, res, next) => {
   } else {
     res.redirect('/login')
   }
-
 }
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  
   let user = req.session.user
 
   productHelper.getAllProducts().then((products) => {
     res.render('../views/user/view_products.hbs', { title: 'Shoping Cart', admin: false, products, user });
   })
-
 });
 
 router.get('/login', (req, res) => {
@@ -33,11 +32,9 @@ router.get('/login', (req, res) => {
     res.render('../views/user/login.hbs', { loginErr: req.session.loginErr })
     req.session.loginErr = false
   }
-
 })
 
 router.post('/login', (req, res) => {
-
   userHelpers.doLogin(req.body).then((response) => {
 
     if (response.status) {
@@ -48,40 +45,35 @@ router.post('/login', (req, res) => {
       req.session.loginErr = "Invalid Username or Password"
       res.redirect('/login')
     }
-
   })
 })
 
 router.get('/signup', (req, res) => {
-
   res.render('../views/user/signup.hbs')
-
 })
 
 router.post('/signup', (req, res) => {
-
   userHelpers.doSignup(req.body).then((response) => {
+
     req.session.loggedIn = true
     req.session.user = response
     res.redirect('/login')
   })
-
 })
 
 router.get('/logout', (req, res) => {
-
   req.session.destroy()
   res.redirect('/')
-
 })
 
 router.get('/cart', varifyLogin, (req, res) => {
   res.render('../views/user/cart.hbs')
 })
 
-router.get('/add_to_cart/:id', (req, res) =>{
-  userHelpers.addToCart(req.params.id, req.session._id)
-
+router.get('/add_to_cart/:id', varifyLogin, (req, res) =>{
+  userHelpers.addToCart(req.params.id, req.session.user._id).then(()=>{
+    res.redirect('/')
+  })
 })
 
 module.exports = router;
