@@ -66,7 +66,9 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/cart', varifyLogin, (req, res) => {
+router.get('/cart', varifyLogin, async (req, res) => {
+  let products = await userHelpers.getCartProducts(req.session.user._id)
+  console.log(products)
   res.render('../views/user/cart.hbs')
 })
 
