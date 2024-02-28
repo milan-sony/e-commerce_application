@@ -49,7 +49,6 @@ module.exports = {
             if (userCart) {
                 //  checks whether the product being added already exists in the cart by finding its index in the products array of the cart.
                 let proExist = userCart.products.findIndex(product => product.item == productID)
-                console.log(proExist)
                 // If the product exists in the cart, it updates the quantity of that product in the cart by incrementing its quantity by 1 using MongoDB's $inc operator.
                 if (proExist != -1) {
                     db.collection(collections.CART_COLLECTIONS).updateOne({ user: new ObjectId(userID), 'products.item': new ObjectId(productID) },
@@ -100,7 +99,7 @@ module.exports = {
                     }
                 },
                 {
-                    // $lookup: Performs a left outer join with the PRODUCT_COLLECTIONS collection to retrieve product details based on the item field.
+                    // $lookup: Performs a left outer join with the PRODUCT_COLLECTIONS collection to retrieve product details based on the item field. (same as of join in sql)
                     $lookup: {
                         from: collections.PRODUCT_COLLECTIONS,
                         localField: 'item',
@@ -117,6 +116,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
+            // console.log(cartItems)
             resolve(cartItems)
         })
     },
