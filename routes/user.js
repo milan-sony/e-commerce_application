@@ -80,8 +80,7 @@ router.get('/cart', varifyLogin, async (req, res) => {
 router.get('/add_to_cart/:id', (req, res) => {
   console.log("API Call")
   userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
-    // res.redirect('/')
-    
+    res.json({status: true})
   })
 })
 
