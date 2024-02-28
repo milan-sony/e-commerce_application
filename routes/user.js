@@ -77,9 +77,11 @@ router.get('/cart', varifyLogin, async (req, res) => {
   res.render('../views/user/cart.hbs', { products, user: req.session.user })
 })
 
-router.get('/add_to_cart/:id', varifyLogin, (req, res) => {
+router.get('/add_to_cart/:id', (req, res) => {
+  console.log("API Call")
   userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
-    res.redirect('/')
+    // res.redirect('/')
+    
   })
 })
 
