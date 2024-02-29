@@ -134,28 +134,49 @@ module.exports = {
         })
     },
 
-    increaseProductQuantity: (productDetails) => {
+    increaseQuantity: (productDetails) => {
         return new Promise((resolve, reject) => {
             // console.log(productDetails)
             quantity = parseInt(productDetails.quantity)
 
-            console.log(quantity)
-            console.log(productDetails.cart)
-            console.log(productDetails.product)
-
             if (quantity >= 1) {
-                db.collection(collections.CART_COLLECTIONS).updateOne({cart: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product)},{
-                    $inc: {'products.$.quantity': 1}
-                }).then(()=>{
-                    console.log("success")
-                    // resolve(co)
+                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
+                    $inc: { 'products.$.quantity': 1 }
+                }).then((response) => {
+                    resolve()
                 })
             }
             else {
-
+                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
+                    {
+                        $pull: { products: { item: new ObjectId(productDetails.product) } }
+                    }
+                ).then((response) => {
+                    resolve()
+                })
             }
+        })
+    },
 
+    decreaseQuantity: (productDetails) => {
+        return new Promise((resolve, reject) => {
+            quantity = parseInt(productDetails.quantity)
 
+            if (quantity < 2) {
+                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
+                    {
+                        $pull: { products: { item: new ObjectId(productDetails.product) } }
+                    }
+                ).then((response) => {
+                    resolve()
+                })
+            } else {
+                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
+                    $inc: { 'products.$.quantity': -1 }
+                }).then((response) => {
+                    resolve()
+                })
+            }
         })
     }
 }

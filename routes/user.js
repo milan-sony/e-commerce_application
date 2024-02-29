@@ -84,11 +84,17 @@ router.get('/add_to_cart/:id', (req, res) => {
   })
 })
 
-router.post('/increase_product_quantity', (req, res)=>{
-  console.log("hi")
-  console.log(req.body)
-  userHelpers.increaseProductQuantity(req.body).then(()=>{
-    res.json({increaseQuantity: true})
+router.post('/increase_product_quantity', (req, res) => {
+  userHelpers.increaseQuantity(req.body).then(() => {
+
+    res.json({ increaseQuantity: true })
+  })
+})
+
+router.post('/decrease_product_quantity', (req, res) => {
+  userHelpers.decreaseQuantity(req.body).then(() => {
+
+    res.json({ decreaseQuantity: true })
   })
 })
 

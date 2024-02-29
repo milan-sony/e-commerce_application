@@ -13,9 +13,11 @@
                 <td><img src="/product_images/{{this.product._id}}.jpg" style="width: 70px; height:auto"></td>
                 <td>{{this.product.name}}</td>
                 <td>
-                    <button class="btn btn-primary mr-3" onclick="decreaseQuantity('{{this._id}}', '{{this.product._id}}', '{{this.quantity}}')">-</button>
+                    <button class="btn btn-primary mr-3"
+                        onclick="decreaseProductQuantity('{{this._id}}', '{{this.product._id}}', '{{this.quantity}}')">-</button>
                     {{this.quantity}}
-                    <button class="btn btn-primary ml-3" onclick="increaseQuantity('{{this._id}}', '{{this.product._id}}', '{{this.quantity}}')">+</button>
+                    <button class="btn btn-primary ml-3"
+                        onclick="increaseProductQuantity('{{this._id}}', '{{this.product._id}}', '{{this.quantity}}')">+</button>
                 </td>
                 <td class="btn btn-danger">Remove</td>
             </tr>
@@ -26,7 +28,8 @@
 </div>
 
 <script>
-    function increaseQuantity(cartID, prdID, quantity){
+    function increaseProductQuantity(cartID, prdID, quantity) {
+        console.log(cartID, prdID, quantity)
         $.ajax({
             url: '/increase_product_quantity',
             data: {
@@ -35,9 +38,31 @@
                 quantity: quantity
             },
             method: 'post',
-            success: (response)=>{
-                if(response.increaseQuantity){
+            success: (response) => {
+                if (response.increaseQuantity) {
                     location.reload()
+                } else {
+                    alert('Product Removed')
+                }
+            }
+        })
+    }
+
+    function decreaseProductQuantity(cartID, prdID, quantity) {
+        console.log(cartID, prdID, quantity)
+        $.ajax({
+            url: '/decrease_product_quantity',
+            data: {
+                cart: cartID,
+                product: prdID,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.decreaseQuantity) {
+                    location.reload()
+                } else {
+                    alert('Product Removed')
                 }
             }
         })
