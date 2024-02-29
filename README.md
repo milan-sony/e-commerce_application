@@ -154,3 +154,16 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - product details updated and image changed
 - user signup session created
 - working on add to cart
+
+## Day 7
+
+📅 28/02/2024
+
+- Add to cart count updated with Ajax
+- cart item and quantity displayed
+
+## Day 8
+
+📅 29/02/2024
+
+- cart quantity increased and decreased
