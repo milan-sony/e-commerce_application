@@ -134,47 +134,75 @@ module.exports = {
         })
     },
 
-    increaseQuantity: (productDetails) => {
-        return new Promise((resolve, reject) => {
-            // console.log(productDetails)
-            quantity = parseInt(productDetails.quantity)
+    // increaseQuantity: (productDetails) => {
+    //     return new Promise((resolve, reject) => {
+    //         // console.log(productDetails)
+    //         quantity = parseInt(productDetails.quantity)
 
-            if (quantity >= 1) {
-                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
-                    $inc: { 'products.$.quantity': 1 }
-                }).then((response) => {
-                    resolve()
-                })
-            }
-            else {
+    //         if (quantity >= 1) {
+    //             db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
+    //                 $inc: { 'products.$.quantity': 1 }
+    //             }).then((response) => {
+    //                 resolve()
+    //             })
+    //         }
+    //         else {
+    //             db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
+    //                 {
+    //                     $pull: { products: { item: new ObjectId(productDetails.product) } }
+    //                 }
+    //             ).then((response) => {
+    //                 resolve()
+    //             })
+    //         }
+    //     })
+    // },
+
+    // decreaseQuantity: (productDetails) => {
+    //     return new Promise((resolve, reject) => {
+    //         quantity = parseInt(productDetails.quantity)
+
+    //         if (quantity < 2) {
+    //             db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
+    //                 {
+    //                     $pull: { products: { item: new ObjectId(productDetails.product) } }
+    //                 }
+    //             ).then((response) => {
+    //                 resolve()
+    //             })
+    //         } else {
+    //             db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
+    //                 $inc: { 'products.$.quantity': -1 }
+    //             }).then((response) => {
+    //                 resolve()
+    //             })
+    //         }
+    //     })
+    // }
+
+
+    changeProductQuantity: (productDetails) => {
+
+        productDetails.count=parseInt(productDetails.count)
+        productDetails.quantity=parseInt(productDetails.quantity)
+
+        return new Promise((resolve, reject) => {
+            if (productDetails.count == -1 && productDetails.quantity == 1) {
+                // removing the cart item
                 db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
                     {
                         $pull: { products: { item: new ObjectId(productDetails.product) } }
                     }
                 ).then((response) => {
-                    resolve()
+                    resolve({ removeProduct: true })
                 })
-            }
-        })
-    },
 
-    decreaseQuantity: (productDetails) => {
-        return new Promise((resolve, reject) => {
-            quantity = parseInt(productDetails.quantity)
-
-            if (quantity < 2) {
-                db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
-                    {
-                        $pull: { products: { item: new ObjectId(productDetails.product) } }
-                    }
-                ).then((response) => {
-                    resolve()
-                })
             } else {
+                // increment or decrement the the quantity
                 db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
-                    $inc: { 'products.$.quantity': -1 }
+                    $inc: { 'products.$.quantity': productDetails.count }
                 }).then((response) => {
-                    resolve()
+                    resolve(true)
                 })
             }
         })
