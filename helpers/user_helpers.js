@@ -140,7 +140,7 @@ module.exports = {
         productDetails.quantity = parseInt(productDetails.quantity)
 
         return new Promise((resolve, reject) => {
-            
+
             if (productDetails.count == -1 && productDetails.quantity == 1) {
                 // removing the cart item
                 db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
@@ -158,6 +158,18 @@ module.exports = {
                     resolve(true)
                 })
             }
+        })
+    },
+
+    removeCartProduct: (productDetails) => {
+        return new Promise((resolve, reject) => {
+            db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart) },
+                {
+                    $pull: { products: { item: new ObjectId(productDetails.product) } }
+                }
+            ).then((response) => {
+                resolve(response)
+            })
         })
     }
 }

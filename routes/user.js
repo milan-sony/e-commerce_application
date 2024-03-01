@@ -91,4 +91,10 @@ router.post('/change_product_quantity', (req, res)=>{
   })
 })
 
+router.post('/remove_cart_product', (req, res)=>{
+  userHelpers.removeCartProduct(req.body).then((response)=>{
+    res.redirect('/cart')
+  })
+})
+
 module.exports = router;
