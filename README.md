@@ -166,4 +166,4 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 
 📅 29/02/2024
 
-- cart quantity increased and decreased
+- cart product quantity increased and decreased
