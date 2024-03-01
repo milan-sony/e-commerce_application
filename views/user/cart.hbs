@@ -11,7 +11,7 @@
         <tbody>
             {{#each products}}
             <tr>
-                <td><img src="/product_images/{{this.product._id}}.jpg" style="width: 70px; height:auto"></td>
+                <td><img src="/product_images/{{this.product._id}}.jpg" style="width: 70px; height:auto" alt="Product Image"></td>
                 <td>{{this.product.name}}</td>
                 <td>{{this.product.price}}</td>
                 <td>
@@ -23,8 +23,9 @@
                         onclick="changeQuantity('{{this._id}}', '{{this.product._id}}', 1)"
                         style="font-weight: bolder;">+</button>
                 </td>
-                <td> 
-                    <button class="btn btn-danger" onclick="removeProduct('{{this._id}}', '{{this.product._id}}')">Remove</button>
+                <td>
+                    <button class="btn btn-danger"
+                        onclick="removeProduct('{{this._id}}', '{{this.product._id}}')">Remove</button>
                 </td>
             </tr>
             {{/each}}
@@ -58,15 +59,15 @@
         })
     }
 
-    function removeProduct(cartID, proID){
+    function removeProduct(cartID, proID) {
         $.ajax({
             url: '/remove_cart_product',
-            data:{
+            data: {
                 cart: cartID,
                 product: proID
             },
             method: 'post',
-            success: (response) =>{
+            success: (response) => {
                 alert('Product removed from cart')
                 location.reload()
             }

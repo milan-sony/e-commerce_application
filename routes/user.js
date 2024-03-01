@@ -84,15 +84,15 @@ router.get('/add_to_cart/:id', (req, res) => {
   })
 })
 
-router.post('/change_product_quantity', (req, res)=>{
+router.post('/change_product_quantity', (req, res) => {
   // req.body contains the the data from changeQuantity() in cart.hbs
-  userHelpers.changeProductQuantity(req.body).then((response)=>{
+  userHelpers.changeProductQuantity(req.body).then((response) => {
     res.json(response)
   })
 })
 
-router.post('/remove_cart_product', (req, res)=>{
-  userHelpers.removeCartProduct(req.body).then((response)=>{
+router.post('/remove_cart_product', (req, res) => {
+  userHelpers.removeCartProduct(req.body).then((response) => {
     res.redirect('/cart')
   })
 })
