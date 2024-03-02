@@ -46,12 +46,6 @@
         let quantity = parseInt(document.getElementById(proID).innerHTML)
         count = parseInt(count)
 
-        console.log("UserID: ", userID)
-        console.log("CartID: ", cartID)
-        console.log("ProID: ", proID)
-        console.log("Count: ", count)
-        console.log("Quantity: ", quantity)
-
         $.ajax({
             url: '/change_product_quantity',
             data: {

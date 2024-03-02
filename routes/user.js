@@ -87,12 +87,8 @@ router.get('/add_to_cart/:id', (req, res) => {
 
 router.post('/change_product_quantity', (req, res) => {
   // req.body contains the the data from changeQuantity() in cart.hbs
-  console.log('Req Body: ', req.body)
   userHelpers.changeProductQuantity(req.body).then(async (response) => {
-    console.log('Res: ', response)
-    console.log("user: ", req.body.user)
     response.total = await userHelpers.getTotalAmount(req.body.user)
-    console.log('Res total: ', response.total)
     res.json(response)
   })
 })
