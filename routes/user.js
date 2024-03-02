@@ -73,8 +73,10 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/cart', varifyLogin, async (req, res) => {
+
   let products = await userHelpers.getCartProducts(req.session.user._id)
   let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
+
   res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue })
 })
 
@@ -88,6 +90,7 @@ router.get('/add_to_cart/:id', (req, res) => {
 router.post('/change_product_quantity', (req, res) => {
   // req.body contains the the data from changeQuantity() in cart.hbs
   userHelpers.changeProductQuantity(req.body).then(async (response) => {
+
     response.total = await userHelpers.getTotalAmount(req.body.user)
     res.json(response)
   })
@@ -95,17 +98,26 @@ router.post('/change_product_quantity', (req, res) => {
 
 router.post('/remove_cart_product', (req, res) => {
   userHelpers.removeCartProduct(req.body).then((response) => {
+
     res.redirect('/cart')
   })
 })
 
 router.get('/place_order', varifyLogin, async (req, res) => {
+
   let total = await userHelpers.getTotalAmount(req.session.user._id)
+
   res.render('../views/user/place_order.hbs', { total, user: req.session.user})
 })
 
-router.post('/place_order', (req, res)=>{
-  console.log(req.body)
+router.post('/place_order', async (req, res)=>{
+
+  let products = await userHelpers.getCartProductList(req.body.userID)
+  let totalPrice = await userHelpers.getTotalAmount(req.body.userID)
+
+  userHelpers.placeOrder(req.body, products, totalPrice).then((response)=>{
+    res.json({status: true})
+  })
 })
 
 module.exports = router;
