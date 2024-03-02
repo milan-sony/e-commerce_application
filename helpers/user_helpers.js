@@ -171,5 +171,52 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+    
+    getTotalAmount: (userID)=>{
+        return new Promise(async (resolve, reject) => {
+            let total = await db.collection(collections.CART_COLLECTIONS).aggregate([
+                {
+                    // $match: Filters documents based on the provided userID.
+                    $match: { user: new ObjectId(userID) }
+                },
+                {
+                    // $unwind: Deconstructs the products array within each document
+                    $unwind: '$products'
+                },
+                {
+                    // $project: Reshapes documents to only include item and quantity fields.
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    // $lookup: Performs a left outer join with the PRODUCT_COLLECTIONS collection to retrieve product details based on the item field. (same as of join in sql)
+                    $lookup: {
+                        from: collections.PRODUCT_COLLECTIONS,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    // stage to further shape the output, extracting the first element of the product array and discarding the rest.
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $group:{
+                        _id:null,
+                        total: {$sum:{$multiply:['$quantity', {'$toInt': '$product.price'}]}}
+                    }
+                }
+            ]).toArray()
+            console.log(total)
+            resolve(total)
+        })
     }
 }
