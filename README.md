@@ -4,6 +4,9 @@
 
 An E-Commerce Application build with Node.JS, Express and MongoDB
 
+<details>
+<summary><b>⏳ Timeline</b></summary>
+
 ## Day 1 
 📅 20/01/2024
 
@@ -167,3 +170,12 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 📅 29/02/2024
 
 - cart product quantity increased and decreased
+
+## Day 9
+
+📆 01/03/2024
+
+- Product removed from cart
+- product checkout page created
+
+</details>
