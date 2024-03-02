@@ -47,11 +47,14 @@
     $('#checkout_form').submit((e)=>{
         e.preventDefault()
         $.ajax({
-            url: '/place_order',
+            url: '/checkout_order',
             method: 'post',
             data:$('#checkout_form').serialize(),
             success:(response)=>{
-                alert(response)
+                alert("Order placed")
+                if(response.status){
+                    location.href = '/order_success'
+                }
             }
         })
     })

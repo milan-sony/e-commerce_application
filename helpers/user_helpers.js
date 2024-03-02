@@ -224,12 +224,13 @@ module.exports = {
         })
     },
 
-    placeOrder: (orderDetails, products, totalAmount)=>{
-        return new Promise((resolve, reject)=>{
+    placeOrder: (orderDetails, products, totalAmount) => {
+        return new Promise((resolve, reject) => {
 
             let status = orderDetails.payment_method === 'COD' ? 'placed' : 'pending'
 
             let orderObj = {
+                dateTime: new Date(),
                 deliveryDetails: {
                     address: orderDetails.address,
                     pincode: orderDetails.pincode,
@@ -238,22 +239,64 @@ module.exports = {
                 userID: new ObjectId(orderDetails.userID),
                 paymentMethod: orderDetails.payment_method,
                 products: products,
-                totaAmount: totalAmount,
+                totalAmount: totalAmount,
                 status: status
             }
 
-            db.collection(collections.ORDER_COLLECTIIONS).insertOne(orderObj).then((response)=>{
+            db.collection(collections.ORDER_COLLECTIONS).insertOne(orderObj).then((response) => {
                 // after the insertion the cart is deleted
-                db.collection(collections.CART_COLLECTIONS).deleteOne({user: new ObjectId(orderDetails.userID)})
+                db.collection(collections.CART_COLLECTIONS).deleteOne({ user: new ObjectId(orderDetails.userID) })
                 resolve()
             })
         })
     },
 
-    getCartProductList: (userID)=>{
-        return new Promise(async(resolve, reject)=>{
-            let cart = await db.collection(collections.CART_COLLECTIONS).findOne({user: new ObjectId(userID)})
+    getCartProductList: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            let cart = await db.collection(collections.CART_COLLECTIONS).findOne({ user: new ObjectId(userID) })
             resolve(cart.products)
+        })
+    },
+
+    getUserOrders: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            let orders = await db.collection(collections.ORDER_COLLECTIONS).find({ userID: new ObjectId(userID) }).toArray()
+            resolve(orders)
+        })
+    },
+
+    getOrderProducts: (orderID) => {
+        return new Promise(async (resolve, reject) => {
+            let orderItems = await db.collection(collections.ORDER_COLLECTIONS).aggregate([
+                {
+                    $match: { _id: new ObjectId(orderID) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collections.PRODUCT_COLLECTIONS,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                }
+            ]).toArray()
+            resolve(orderItems)
         })
     }
 }

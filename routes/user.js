@@ -110,7 +110,7 @@ router.get('/place_order', varifyLogin, async (req, res) => {
   res.render('../views/user/place_order.hbs', { total, user: req.session.user})
 })
 
-router.post('/place_order', async (req, res)=>{
+router.post('/checkout_order', async (req, res)=>{
 
   let products = await userHelpers.getCartProductList(req.body.userID)
   let totalPrice = await userHelpers.getTotalAmount(req.body.userID)
@@ -118,6 +118,20 @@ router.post('/place_order', async (req, res)=>{
   userHelpers.placeOrder(req.body, products, totalPrice).then((response)=>{
     res.json({status: true})
   })
+})
+
+router.get('/order_success', (req, res)=>{
+  res.render('../views/user/order_success.hbs')
+})
+
+router.get('/orders', async (req, res)=>{
+  let orders = await userHelpers.getUserOrders(req.session.user._id)
+  res.render('../views/user/orders.hbs',{user: req.session.user, orders})
+})
+
+router.get('/view_order_products/:id',async (req, res)=>{
+  let products = await userHelpers.getOrderProducts(req.params.id)
+  res.render('../views/user/view_order_products.hbs', {user: req.session.user, products})
 })
 
 module.exports = router;
