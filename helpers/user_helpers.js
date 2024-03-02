@@ -172,8 +172,8 @@ module.exports = {
             })
         })
     },
-    
-    getTotalAmount: (userID)=>{
+
+    getTotalAmount: (userID) => {
         return new Promise(async (resolve, reject) => {
             let total = await db.collection(collections.CART_COLLECTIONS).aggregate([
                 {
@@ -209,14 +209,13 @@ module.exports = {
                     }
                 },
                 {
-                    $group:{
-                        _id:null,
-                        total: {$sum:{$multiply:['$quantity', {'$toInt': '$product.price'}]}}
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', { '$toInt': '$product.price' }] } }
                     }
                 }
             ]).toArray()
-            console.log(total)
-            resolve(total)
+            resolve(total[0].total)
         })
     }
 }
