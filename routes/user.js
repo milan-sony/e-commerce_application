@@ -101,7 +101,11 @@ router.post('/remove_cart_product', (req, res) => {
 
 router.get('/place_order', varifyLogin, async (req, res) => {
   let total = await userHelpers.getTotalAmount(req.session.user._id)
-  res.render('../views/user/place_order.hbs', { total })
+  res.render('../views/user/place_order.hbs', { total, user: req.session.user})
+})
+
+router.post('/place_order', (req, res)=>{
+  console.log(req.body)
 })
 
 module.exports = router;

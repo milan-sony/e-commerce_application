@@ -3,7 +3,8 @@
         <div class="row mt-5">
             <div class="col-lg-6 col-md-6">
                 <h3>Enter delivery adderess</h3>
-                <form action="" method="post">
+                <form action="" method="post" id="checkout_form">
+                    <input type="text" name="userID" id="" value="{{user._id}}" hidden>
                     <div class="form-group">
                         <label>Address</label>
                         <input type="text" class="form-control" name="address">
@@ -24,22 +25,34 @@
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="radio">&nbsp; &nbsp;Cash on delivery
+                            <input type="radio" name="payment_method" value="COD">&nbsp; &nbsp;Cash on delivery
                         </div>
                     </div>
                 </div>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input type="radio">&nbsp;
-                            &nbsp;Online
-                            Payment
+                            <input type="radio" name="payment_method" value="ONLINE">&nbsp; &nbsp;Online Payment
                         </div>
                     </div>
                 </div>
-                <a href="" class="btn btn-success mt-3 float-right">Checkout</a>
+                <button type="submit" class="btn btn-success mt-3 float-right">Checkout</button>
             </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    $('#checkout_form').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url: '/place_order',
+            method: 'post',
+            data:$('#checkout_form').serialize(),
+            success:(response)=>{
+                alert(response)
+            }
+        })
+    })
+</script>
