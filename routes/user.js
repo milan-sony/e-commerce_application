@@ -75,7 +75,7 @@ router.get('/logout', (req, res) => {
 router.get('/cart', varifyLogin, async (req, res) => {
   let products = await userHelpers.getCartProducts(req.session.user._id)
   let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-  res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue})
+  res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue })
 })
 
 router.get('/add_to_cart/:id', (req, res) => {
@@ -87,7 +87,12 @@ router.get('/add_to_cart/:id', (req, res) => {
 
 router.post('/change_product_quantity', (req, res) => {
   // req.body contains the the data from changeQuantity() in cart.hbs
-  userHelpers.changeProductQuantity(req.body).then((response) => {
+  console.log('Req Body: ', req.body)
+  userHelpers.changeProductQuantity(req.body).then(async (response) => {
+    console.log('Res: ', response)
+    console.log("user: ", req.body.user)
+    response.total = await userHelpers.getTotalAmount(req.body.user)
+    console.log('Res total: ', response.total)
     res.json(response)
   })
 })

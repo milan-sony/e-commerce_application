@@ -16,12 +16,13 @@
                 <td>{{this.product.name}}</td>
                 <td>{{this.product.price}}</td>
                 <td>
+                    <p>User ID: {{../user._id}}</p>
                     <button class="btn btn-primary mr-3"
-                        onclick="changeQuantity('{{this._id}}', '{{this.product._id}}', -1)"
+                        onclick="changeQuantity('{{this._id}}', '{{this.product._id}}', '{{../user._id}}', -1)"
                         style="font-weight: bolder;">-</button>
                     <span id="{{this.product._id}}" style="font-weight: bold;">{{this.quantity}}</span>
                     <button class="btn btn-primary ml-3"
-                        onclick="changeQuantity('{{this._id}}', '{{this.product._id}}', 1)"
+                        onclick="changeQuantity('{{this._id}}', '{{this.product._id}}', '{{../user._id}}' , 1)"
                         style="font-weight: bolder;">+</button>
                 </td>
                 <td>
@@ -41,13 +42,20 @@
 </div>
 
 <script>
-    function changeQuantity(cartID, proID, count) {
+    function changeQuantity(cartID, proID, userID, count) {
         let quantity = parseInt(document.getElementById(proID).innerHTML)
         count = parseInt(count)
+
+        console.log("UserID: ", userID)
+        console.log("CartID: ", cartID)
+        console.log("ProID: ", proID)
+        console.log("Count: ", count)
+        console.log("Quantity: ", quantity)
 
         $.ajax({
             url: '/change_product_quantity',
             data: {
+                user: userID,
                 cart: cartID,
                 product: proID,
                 count: count,
@@ -60,6 +68,8 @@
                     location.reload()
                 } else {
                     document.getElementById(proID).innerHTML = quantity + count
+                    document.getElementById('totalValue').innerHTML = response.total
+                    location.reload()
                 }
             }
         })

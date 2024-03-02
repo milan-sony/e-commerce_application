@@ -155,7 +155,7 @@ module.exports = {
                 db.collection(collections.CART_COLLECTIONS).updateOne({ _id: new ObjectId(productDetails.cart), 'products.item': new ObjectId(productDetails.product) }, {
                     $inc: { 'products.$.quantity': productDetails.count }
                 }).then((response) => {
-                    resolve(true)
+                    resolve({ status: true })
                 })
             }
         })
