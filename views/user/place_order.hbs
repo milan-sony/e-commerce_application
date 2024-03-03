@@ -44,15 +44,15 @@
 </div>
 
 <script>
-    $('#checkout_form').submit((e)=>{
+    $('#checkout_form').submit((e) => {
         e.preventDefault()
         $.ajax({
             url: '/place_order',
             method: 'post',
-            data:$('#checkout_form').serialize(),
-            success:(response)=>{
+            data: $('#checkout_form').serialize(),
+            success: (response) => {
                 alert("Order placed")
-                if(response.status){
+                if (response.status) {
                     location.href = '/order_success'
                 }
             }

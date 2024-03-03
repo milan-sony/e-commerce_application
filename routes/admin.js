@@ -70,11 +70,10 @@ router.post('/edit_product', (req, res) => {
   })
 })
 
-router.get('/view_all_users', (req, res)=>{
-  user_helpers.getUsersList().then((users)=>{
-    console.log(users)
-    res.render('../views/admin/view_all_users.hbs', {users, admin:true})
+router.get('/view_all_users', (req, res) => {
+  user_helpers.getUsersList().then((users) => {
 
+    res.render('../views/admin/view_all_users.hbs', { users, admin: true })
   })
 })
 

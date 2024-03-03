@@ -1,7 +1,7 @@
 <div class="container">
     <h3>Edit Product</h3>
     <form action="/admin/edit_product" method="post" enctype="multipart/form-data">
-    <input type="text" class="form-control" name="id" value="{{product._id}}" style="display: none;">
+        <input type="text" class="form-control" name="id" value="{{product._id}}" style="display: none;">
         <div class="form-group">
             <label for="">Name</label>
             <input type="text" class="form-control" name="name" value="{{product.name}}">
@@ -29,7 +29,7 @@
 </div>
 
 <script>
-    function viewImage(event){
+    function viewImage(event) {
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
     }
 </script>

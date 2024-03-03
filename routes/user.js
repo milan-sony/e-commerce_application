@@ -76,11 +76,11 @@ router.get('/cart', varifyLogin, async (req, res) => {
 
   let products = await userHelpers.getCartProducts(req.session.user._id)
   let totalValue = 0
-  
-  if (products.length > 0){
+
+  if (products.length > 0) {
     totalValue = await userHelpers.getTotalAmount(req.session.user._id)
     res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue })
-  }else{
+  } else {
     res.redirect('/')
   }
 })

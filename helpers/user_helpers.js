@@ -300,8 +300,8 @@ module.exports = {
         })
     },
 
-    getUsersList: ()=>{
-        return new Promise(async (resolve, reject)=>{
+    getUsersList: () => {
+        return new Promise(async (resolve, reject) => {
             let users = await db.collection(collections.USER_COLLECTIONS).find().toArray()
             resolve(users)
         })

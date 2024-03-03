@@ -5,11 +5,11 @@ module.exports = {
 
     connect: () => {
         mongoose.connect(url)
-        .then(() => {
-            console.log("Connected to MongoDB\n");
-        }).catch((error) => {
-            console.log("MongoDB not connected\n" + error);
-        });
+            .then(() => {
+                console.log("Connected to MongoDB\n");
+            }).catch((error) => {
+                console.log("MongoDB not connected\n" + error);
+            });
     },
 
     collection: (name) => {
