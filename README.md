@@ -2,7 +2,7 @@
 
 # E-Commerce Application
 
-An E-Commerce Application build with Node.JS, Express and MongoDB
+An E-Commerce Application build with Node.js, Express.js, Handlebars , AJAX and MongoDB
 
 <details>
 <summary><b>⏳ Timeline</b></summary>
