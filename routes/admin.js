@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const productHelper = require('../helpers/product_helpers')
+const productHelper = require('../helpers/product_helpers');
+const user_helpers = require('../helpers/user_helpers');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -66,6 +67,14 @@ router.post('/edit_product', (req, res) => {
       let image = req.files.image
       image.mv('./public/product_images/' + id + '.jpg')
     }
+  })
+})
+
+router.get('/view_all_users', (req, res)=>{
+  user_helpers.getUsersList().then((users)=>{
+    console.log(users)
+    res.render('../views/admin/view_all_users.hbs', {users, admin:true})
+
   })
 })
 

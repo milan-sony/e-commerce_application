@@ -298,5 +298,12 @@ module.exports = {
             ]).toArray()
             resolve(orderItems)
         })
+    },
+
+    getUsersList: ()=>{
+        return new Promise(async (resolve, reject)=>{
+            let users = await db.collection(collections.USER_COLLECTIONS).find().toArray()
+            resolve(users)
+        })
     }
 }
