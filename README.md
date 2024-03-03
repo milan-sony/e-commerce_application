@@ -178,4 +178,18 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - Product removed from cart
 - product checkout page created
 
+## Day 10
+
+📆 02/03/2024
+
+- Total price added on `place_order.hbs` page
+- Total price added on `cart.hbs`
+- payment methods created
+- Order collection created and product removed from `cart`
+- product details listed on `orders.hbs`
+- product checkout created
+- Cart error fixed
+- Admin view all users added
+- Admin search product
+
 </details>
