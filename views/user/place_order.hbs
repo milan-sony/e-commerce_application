@@ -47,7 +47,7 @@
     $('#checkout_form').submit((e)=>{
         e.preventDefault()
         $.ajax({
-            url: '/checkout_order',
+            url: '/place_order',
             method: 'post',
             data:$('#checkout_form').serialize(),
             success:(response)=>{

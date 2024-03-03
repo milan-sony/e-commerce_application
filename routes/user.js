@@ -75,9 +75,14 @@ router.get('/logout', (req, res) => {
 router.get('/cart', varifyLogin, async (req, res) => {
 
   let products = await userHelpers.getCartProducts(req.session.user._id)
-  let totalValue = await userHelpers.getTotalAmount(req.session.user._id)
-
-  res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue })
+  let totalValue = 0
+  
+  if (products.length > 0){
+    totalValue = await userHelpers.getTotalAmount(req.session.user._id)
+    res.render('../views/user/cart.hbs', { products, user: req.session.user, totalValue })
+  }else{
+    res.redirect('/')
+  }
 })
 
 router.get('/add_to_cart/:id', (req, res) => {
@@ -107,31 +112,36 @@ router.get('/place_order', varifyLogin, async (req, res) => {
 
   let total = await userHelpers.getTotalAmount(req.session.user._id)
 
-  res.render('../views/user/place_order.hbs', { total, user: req.session.user})
+  res.render('../views/user/place_order.hbs', { total, user: req.session.user })
 })
 
-router.post('/checkout_order', async (req, res)=>{
+router.post('/place_order', async (req, res) => {
 
   let products = await userHelpers.getCartProductList(req.body.userID)
   let totalPrice = await userHelpers.getTotalAmount(req.body.userID)
 
-  userHelpers.placeOrder(req.body, products, totalPrice).then((response)=>{
-    res.json({status: true})
+  userHelpers.placeOrder(req.body, products, totalPrice).then((response) => {
+    if (req.body['payment_method'] == 'COD') {
+      res.json({ status: true })
+    } else {
+      // here we need to integrate the razorpay or any other payment gateways
+      res.json({ status: true })
+    }
   })
 })
 
-router.get('/order_success', (req, res)=>{
+router.get('/order_success', (req, res) => {
   res.render('../views/user/order_success.hbs')
 })
 
-router.get('/orders', async (req, res)=>{
+router.get('/orders', async (req, res) => {
   let orders = await userHelpers.getUserOrders(req.session.user._id)
-  res.render('../views/user/orders.hbs',{user: req.session.user, orders})
+  res.render('../views/user/orders.hbs', { user: req.session.user, orders })
 })
 
-router.get('/view_order_products/:id',async (req, res)=>{
+router.get('/view_order_products/:id', async (req, res) => {
   let products = await userHelpers.getOrderProducts(req.params.id)
-  res.render('../views/user/view_order_products.hbs', {user: req.session.user, products})
+  res.render('../views/user/view_order_products.hbs', { user: req.session.user, products })
 })
 
 module.exports = router;
