@@ -193,3 +193,44 @@ An E-Commerce Application build with Node.JS, Express and MongoDB
 - Admin search product
 
 </details>
+
+<details>
+<summary><b>⚙ Run locally</b></summary>
+
+You will need to install Node.js and MongoDB on you system
+
+Head over to https://nodejs.org/en to download Node.js
+
+Head over to https://www.mongodb.com/try/download/community to download MongoDB community server
+
+Once you have downloaded Node.js and MongoDB run the following command (clone this project)
+
+```bash
+  https://github.com/milan-sony/e-commerce_application.git
+```
+
+Then go to the project folder
+
+```bash
+  cd e-commerce_application
+```
+
+Install the dependencies/ packages needed for this project
+
+```bash
+  npm install
+```
+
+Once the packages are installed run
+
+```bash
+  npm start
+```
+
+Then head over to a browser and type
+
+```bash
+  localhost:3000
+```
+    
+</details>
