@@ -203,6 +203,8 @@ Head over to https://nodejs.org/en to download Node.js
 
 Head over to https://www.mongodb.com/try/download/community to download MongoDB community server
 
+Make sure Node and NPM are installed and their PATHs defined
+
 Once you have downloaded Node.js and MongoDB run the following command (clone this project)
 
 ```bash
